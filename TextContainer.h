@@ -51,7 +51,7 @@ public:
   // of the tokenized sequence.
   void tokenize(const std::string &vocab, long long length, bool lower = true,bool affix = false);
   // Revert the ids into tokens.
-  std::string revert();
+  std::string revert(Text<long long, 2> input);
 
 private:
   // Check if a character is a whitespace character.
@@ -120,7 +120,7 @@ Text<T, N>::Text(const std::string &str) : MemRef<T, N>(), str(str) {}
 
 // Tokenizer
 template <typename T, size_t N>
-void Text<T, N>::tokenize(const std::string &vocab, long long length, bool lower,bool affix) {
+void Text<T, N>::tokenize(const std::string &vocab, long long length, bool lower, bool affix) {
   // Initialize MemRef container members.
   this->offset = 0;
   this->sizes[0] = 1;
@@ -172,18 +172,18 @@ void Text<T, N>::tokenize(const std::string &vocab, long long length, bool lower
   this->aligned[tokenCnt++] = sep;
   // Padding the rest token
   for (long long i = tokenCnt; i < length; i++) {
-    this->aligned[i] = pad;
+    this->aligned[i] = sep;
   }
 }
 
 // todo:change this function for decoding id
 // A question is that if model generate a sentence whose first word is a affix,what should we do.
 template <typename T, size_t N>
-std::string Text<T, N>::revert(){
+std::string Text<T, N>::revert(Text<long long, 2> input){
     std::string dst;
     bool preEnd = false;
     for(auto i = 0; i < this->size; i++){
-        int id = this->getData()[i];
+        int id = input.getData()[i];
         int pos = 0;
         if(id == unk || id == cls)
             continue;
