@@ -34,17 +34,13 @@ int main() {
     //
     // The test running directory is in <build dir>/tests/Interface/core, so the
     // vocabulary directory uses the following relative path.
-    std::string vocabDir = "/Users/lester/Desktop/bert_base/buddy_tokenizer/vocab.txt";
+    std::string vocabDir = "/home/lester/Desktop/tokenizer/Tokenizer/vocab_llama.txt";
     //===--------------------------------------------------------------------===//
     // Test text constructor for pure string.
     //===--------------------------------------------------------------------===//
     std::string pureStr = "buddy compiler is a domain specific compiler";
     Text<long long, 2> pureStrContainer(pureStr);
     pureStrContainer.tokenize(vocabDir, 12);
-//    memref = llama();
-//    newContainer.registerVoc();
-//    std::string str = pureStrContainer.tokenize(vocabDir, 12);
-//    std::cout<<pureStrContainer.revert();
     // CHECK: 101
     fprintf(stderr, "%lld\n", pureStrContainer.getData()[0]);
     // CHECK: 8937
@@ -76,7 +72,6 @@ int main() {
     std::string puncStr = "buddy compiler: a domain specific compiler!";
     Text<long long, 2> puncStrContainer(puncStr);
     puncStrContainer.tokenize(vocabDir, 12);
-//    std::cout<<pureStrContainer.revert(puncStrContainer);
     // CHECK: 101
     fprintf(stderr, "%lld\n", puncStrContainer.getData()[0]);
     // CHECK: 8937
